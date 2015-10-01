@@ -1,13 +1,13 @@
 ---
 # tasks file for ansible-role-fgci-login
 #
-    - name: install EPEL
-      yum: name=epel-release state=present
+- name: install EPEL
+  yum: name=epel-release state=present
 
-    - name: install software that does not need configuration
-      yum: name={{ item }} state=present
-      with_items: unconfigured_packages
+- name: install software that does not need configuration
+  yum: "name={{ item }} state=present"
+  with_items: unconfigured_packages
 
-    - name: remove software 
-      yum: name={{ item }} state=absent
-      with_items: remove_packages
+- name: remove software 
+  yum: "name={{ item }} state=absent"
+  with_items: remove_packages
