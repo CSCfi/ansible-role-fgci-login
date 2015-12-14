@@ -16,3 +16,15 @@
 - name: remove software 
   yum: "name={{ item }} state=absent"
   with_items: remove_packages | default({})
+
+
+## Set Login as the internal network gateway on DHCP server ##
+
+- name: setting Login as Internal network gateway
+  lineinfile: backup=yes dest=/etc/dhcp/dhcpd.conf regexp="  option routers 10.1.1.2;" line="  option routers 10.1.1.4;"
+  when: chgIntGW is defined
+  delegate_to: install
+
+- name: restart dhcpd
+  service: name=dhcpd state=restarted
+  delegate_to: install
