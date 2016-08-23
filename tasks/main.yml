@@ -6,6 +6,7 @@
               dest=/etc/dhcp/dhcpd.conf 
               regexp="  option routers {{ kickstart_server_ip }};" 
               line="  option routers {{ int_gateway }};"
+              backup=yes
   when: chgIntGW is defined and chgIntGW == True
   register: reg_chgIntGW
   delegate_to: install
