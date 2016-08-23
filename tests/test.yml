@@ -1,0 +1,10 @@
+---
+
+ - hosts: localhost
+   remote_user: root
+   roles:
+     - ansible-role-fgci-login
+   vars:
+     - kickstart_server_ip: "10.1.1.2"
+     - int_gateway: "10.1.1.4"
+     
