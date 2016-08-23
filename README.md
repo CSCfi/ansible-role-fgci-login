@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-fgci-login.svg?branch=int_gateway)](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-fgci-login)
+
 ansible-role-fgci-login
 =========
 
