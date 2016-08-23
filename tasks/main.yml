@@ -2,9 +2,8 @@
 # tasks file for ansible-role-fgci-login
 
 - name: setting Login as Internal network gateway on the install node
-  lineinfile: backup=yes 
-              dest=/etc/dhcp/dhcpd.conf 
-              regexp="  option routers {{ kickstart_server_ip }};" 
+  lineinfile: dest=/etc/dhcp/dhcpd.conf 
+              regexp="^  option routers ({{ kickstart_server_ip }}|{{ int_gateway }});$" 
               line="  option routers {{ int_gateway }};"
               backup=yes
   when: chgIntGW is defined and chgIntGW == True
