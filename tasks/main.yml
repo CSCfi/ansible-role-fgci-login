@@ -21,8 +21,8 @@
 ## Set Login as the internal network gateway on DHCP server ##
 
 - name: setting Login as Internal network gateway
-  lineinfile: backup=yes dest=/etc/dhcp/dhcpd.conf regexp="  option routers 10.1.1.2;" line="  option routers 10.1.1.4;"
-  when: chgIntGW is defined
+  lineinfile: backup=yes dest=/etc/dhcp/dhcpd.conf regexp="  option routers {{ kickstart_server_ip }};" line="  option routers {{ int_gateway }};"
+  when: chgIntGW is defined and chgIntGW == True
   delegate_to: install
 
 - name: restart dhcpd
