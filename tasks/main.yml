@@ -1,30 +1,16 @@
 ---
 # tasks file for ansible-role-fgci-login
-#
-- name: install EPEL
-  yum: name=epel-release state=present
 
-- name: install software that do not need extra configuration
-  yum: name={{ item }} state=present
-  with_items: "{{ unconfigured_packages | default({}) }}"
-
-- name: install IB software that do not need extra configuration - on nodes with ib interfaces
-  yum: name={{ item }} state=present
-  with_items: "{{ ib_unconfigured_packages | default({}) }}"
-  when: infiniband_on_login_node
-
-- name: remove software 
-  yum: "name={{ item }} state=absent"
-  with_items: "{{ remove_packages | default({}) }}"
-
-
-## Set Login as the internal network gateway on DHCP server ##
-
-- name: setting Login as Internal network gateway
-  lineinfile: backup=yes dest=/etc/dhcp/dhcpd.conf regexp="  option routers {{ kickstart_server_ip }};" line="  option routers {{ int_gateway }};"
+- name: setting Login as Internal network gateway on the install node
+  lineinfile: backup=yes 
+              dest=/etc/dhcp/dhcpd.conf 
+              regexp="  option routers {{ kickstart_server_ip }};" 
+              line="  option routers {{ int_gateway }};"
   when: chgIntGW is defined and chgIntGW == True
+  register: reg_chgIntGW
   delegate_to: install
 
-- name: restart dhcpd
+- name: restart dhcpd on the install node if we update the config
   service: name=dhcpd state=restarted
   delegate_to: install
+  when: chgIntGW is defined and chgIntGW == True and reg_chgIntGW.changed
